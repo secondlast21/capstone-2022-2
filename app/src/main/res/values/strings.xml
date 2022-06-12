@@ -21,4 +21,8 @@
     <string name="search_ambulance">SEARCH AMBULANCE</string>
     <string name="nearest_ambulance_location">Nearest Ambulance Location</string>
     <string name="nearest_ambulance">Nearest Ambulance</string>
+    <string name="hospital_name">Hospital Name</string>
+    <string name="ambulance_s_name">Ambulance\'s Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="hospital_number">Hospital Number</string>
 </resources>

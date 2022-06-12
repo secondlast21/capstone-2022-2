@@ -5,7 +5,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".SigninActivity">
+tools:context=".MapsActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
@@ -23,14 +23,38 @@ tools:context=".SigninActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
         android:text="@string/nearest_hospital"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map" />
+
+    <TextView
+        android:id="@+id/hospi_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hospital_name"
+        android:textSize="13sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/nearest_hospital"
+        tools:layout_editor_absoluteX="182dp" />
+
+    <TextView
+        android:id="@+id/hospital_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/hospital_number"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hospi_name" />
 
     <TextView
         android:id="@+id/nearest_address"
@@ -39,20 +63,21 @@ tools:context=".SigninActivity">
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:text="@string/nearest_hospital_address"
-        android:textSize="18sp"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nearest_hospital" />
+        app:layout_constraintTop_toBottomOf="@+id/hospital_phone" />
 
     <TextView
         android:id="@+id/nearest_ambulance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
         android:text="@string/nearest_ambulance"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -60,30 +85,64 @@ tools:context=".SigninActivity">
         app:layout_constraintTop_toBottomOf="@+id/nearest_address" />
 
     <TextView
-        android:id="@+id/nearest_ambulance_location"
+        android:id="@+id/ambulance_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/ambulance_s_name"
+        android:textSize="13sp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:text="@string/nearest_ambulance_location"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nearest_ambulance" />
 
-    <Button
+    <TextView
+        android:id="@+id/ambulance_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_login"
-        app:layout_constraintTop_toBottomOf="@id/nearest_ambulance_location"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/phone_number"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ambulance_name" />
+
+    <TextView
+        android:id="@+id/nearest_ambulance_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nearest_ambulance_location"
+        android:textSize="13sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/ambulance_phone" />
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/dark_teal"
-        android:text="@string/search_ambulance" />
+        android:text="@string/search_ambulance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nearest_ambulance_location"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="30dp" />
 
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/map" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
