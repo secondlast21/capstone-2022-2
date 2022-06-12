@@ -2,6 +2,7 @@ package com.example.capstonelocal
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -30,15 +31,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationRequest: LocationRequest
-    private lateinit var locationCallback: LocationCallback
     private val mainViewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance()
     }
 
     private var listAmbulance: List<DataItem> = emptyList()
     private var listHospital: List<DataItem> = emptyList()
-    private var currentLocation: Location? = null
     lateinit var locationManager: LocationManager
     private var ambuLat: Double = 0.0
     private var ambuLng: Double = 0.0
@@ -46,13 +44,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var hospiLng: Double = 0.0
     private var userLat: Double = 0.0
     private var userLng: Double = 0.0
-    private var phone: Int = 0
-    private var hospiName: String = ""
-    private var ambuName: String = ""
-
+    private var ambuPhone: Int = 0
+    private var hospiPhone: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("ambulatCreate", ambuLat.toString())
+        Log.d("ambuLngCreate", ambuLng.toString())
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -72,6 +70,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         getMyLocation()
+        getCurrentLocation()
+
+        Log.d("tempLat", userLat.toString())
+        Log.d("tempLng", userLng.toString())
 
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
@@ -79,17 +81,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isMapToolbarEnabled = true
 
        binding.btnSearch.setOnClickListener {
-           getCurrentLocation()
+           mMap.clear()
            getAmbulance(userLat, userLng)
            getHospital(userLat, userLng)
+
+           Log.d("btnhospilat", hospiLat.toString())
+           Log.d("btnhospilng", hospiLng.toString())
+
+           Log.d("btnambulat", ambuLat.toString())
+           Log.d("btnambulng", ambuLng.toString())
+
+           Log.d("btnuserlat", userLat.toString())
+           Log.d("btnuserlng", userLng.toString())
 
            val ambulanceLoc = LatLng(ambuLat, ambuLng)
            val hospitalLoc = LatLng(hospiLat, hospiLng)
 
            mMap.addMarker(MarkerOptions().position(ambulanceLoc).title("Ambulance"))
            mMap.addMarker(MarkerOptions().position(hospitalLoc).title("Hospital"))
-           userLat = 0.0
-           userLng = 0.0
+
+           Toast.makeText(this, "Yey, Kamu dapat Ambulans", Toast.LENGTH_SHORT).show()
        }
     }
 
@@ -123,7 +134,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
    }
 
     private fun getAmbulance(lintang: Double, bujur: Double) {
-        mainViewModel.getNearestAmbulance(userLat, userLng).observe(this) { ambuLocate ->
+        mainViewModel.getNearestAmbulance(userLat!!, userLng!!).observe(this) { ambuLocate ->
             if (ambuLocate != null) {
                 when (ambuLocate) {
                     is StateResult.Loading -> {
@@ -141,10 +152,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         binding.ambulancePhone.text = listAmbulance[0].telepon.toString()
                         ambuLat = listAmbulance[0].lintang
                         ambuLng = listAmbulance[0].bujur
-                        phone = listAmbulance[0].telepon.toInt()
-                        Log.d("AmbuLat", ambuLat.toString())
-                        Log.d("AmbuLng", ambuLng.toString())
+                        Log.d("listAmbulance", listAmbulance.toString())
+                        Log.d("AmbuLatApi", ambuLat.toString())
+                        Log.d("AmbuLngApi", ambuLng.toString())
                     }
+                    else -> {}
                 }
             }
         }
@@ -167,11 +179,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         binding.nearestAddress.text = listHospital[0].alamat
                         binding.hospiName.text = listHospital[0].nama
                         binding.hospitalPhone.text = listHospital[0].telepon.toString()
+                        val availBed = listHospital[0].bedAvail
+                        binding.bedAvailable.text = "Bed yang tersedia : $availBed"
                         hospiLat = listHospital[0].lintang
                         hospiLng = listHospital[0].bujur
+                        Log.d("listHospital", listHospital.toString())
                         Log.d("HospiLat", hospiLat.toString())
                         Log.d("HospiLng", hospiLng.toString())
                     }
+                    else -> {}
                 }
             }
         }

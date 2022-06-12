@@ -25,4 +25,5 @@
     <string name="ambulance_s_name">Ambulance\'s Name</string>
     <string name="phone_number">Phone Number</string>
     <string name="hospital_number">Hospital Number</string>
+    <string name="bed_available">Bed Available</string>
 </resources>
